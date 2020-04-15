@@ -407,5 +407,12 @@
 			clocks = <&sysctrl HISTB_IR_CLK>;
 			status = "disabled";
 		};
+
+		usb2: ehci@9890000 {
+			compatible = "generic-ehci";
+			reg = <0x9890000 0x100>;
+			status = "disabled";
+		};
+
 	};
 };

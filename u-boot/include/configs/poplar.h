@@ -108,4 +108,6 @@
 #define CONFIG_SYS_CBSIZE		512
 #define CONFIG_SYS_MAXARGS		64
 
+#define CONFIG_ENV_OVERWRITE
+
 #endif /* _POPLAR_H_ */
