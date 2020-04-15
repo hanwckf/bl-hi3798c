@@ -1,0 +1,45 @@
+/*
+ * (C) Copyright 2017 Linaro Limited
+ *
+ * Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+ *
+ * Configuration for Poplar 96boards EE. Parts were derived from other ARM
+ * configurations.
+ *
+ * SPDX-License-Identifier:	GPL-2.0+
+ *
+ */
+
+#include "poplar_layout.h"
+
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+OUTPUT_ARCH(arm)
+ENTRY(start)
+SECTIONS
+{
+	. = LLOADER_TEXT_BASE;
+	.text	:
+	{
+		*(.text)
+		*(.rodata)
+	}
+
+	. = ALIGN(4);
+	.data : { *(.data) }
+
+	. = ALIGN(4);
+	.bss : { *(.bss) }
+
+#ifdef RECOVERY
+	. = FIP_BASE;
+       .fip : { *(.fip) }
+#endif
+
+	. = ALIGN(4);
+       .tail : { *(.tail) }
+
+#ifndef RECOVERY
+	. = FIP_BASE;
+       .fip : { *(.fip) }
+#endif
+}

@@ -1,0 +1,9 @@
+# Poplar Android recovery U-Boot script
+# Created Wed Jun 20 10:00:04 CST 2018
+
+# Partition layout (MBR and EBRs)
+fatload usb 0:1 0x07800000 recovery_files/install-layout.scr
+source 0x07800000
+
+echo ============ INSTALLATION IS DONE =============
+echo (Please reset your board)

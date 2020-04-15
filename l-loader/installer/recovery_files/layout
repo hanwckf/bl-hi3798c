@@ -1,0 +1,15 @@
+=== Using the following disk layout ===
+#    Start     Size     Type FS Type Description
+-    -----     ----     ---- ------- -----------
+*        0        1      MBR
+1        1     8191     0xf0    none loader
+2     8192    81920     0xda    none android_boot
+3    90112  3145727     0x83    ext4 android_system
+4  3235839 11706369     0x0f    none extended
+*  3235839        1      EBR
+5  3235840   524287     0x83    ext4 android_vendor
+*  3760127        1      EBR
+6  3760128   524287     0x83    ext4 android_cache
+*  4284415        1      EBR
+7  4284416 10657792     0x83    ext4 android_user_data
+Total EMMC size is 14942208 512-byte sectors

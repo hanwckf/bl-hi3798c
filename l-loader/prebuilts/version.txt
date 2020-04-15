@@ -1,0 +1,11 @@
+* loader_u-boot_optee.bin
+  u-boot: a82c100220055bb00995191bd2ef2e55d4154b05
+
+* loader_uefi_optee.bin
+  OpenPlatformPkg: 2475250c41c40f0b341f124b4712e01719a2be81
+  edk2: 2cb753671b8c1de806bf6f7ca063e2a03f57226f
+
+* common part
+  optee_os: 21b948d229bbf5c6efe71a28f9e565f2ff11d7e3
+  arm-trusted-firmware: e5dbebf84edf23b5dcce7a85a51c099775d6fc71
+  l-loader: ef73d10c542c0172d8cfeaaec25da0310db6dc77
