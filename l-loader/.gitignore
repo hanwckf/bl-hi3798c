@@ -2,5 +2,9 @@ atf/bl1.bin
 atf/fip.bin
 l-loader
 l-loader.bin
+l-loader.lds
+loader.bin
 temp.bin
-				     
+*.o
+installer/recovery_files/loader.bin.gz
+
