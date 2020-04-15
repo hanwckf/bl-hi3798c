@@ -75,24 +75,33 @@
 			"pxefile_addr_r=0x32000000\0"			\
 			"scriptaddr=0x32000000\0"			\
 			"fdt_addr_r=0x32200000\0"			\
-			"fdtfile=hisilicon/hi3798cv200-poplar.dtb\0"	\
 			"ramdisk_addr_r=0x32400000\0"			\
 			"initrd_high=0xffffffffffffffff\0"		\
 			"android_addr_r=0x30000000\0"			\
 			"android_bootargs=androidboot.hardware=poplar " \
 			    "androidboot.selinux=permissive "		\
 			    "mmz=ddr,0,0,60M\0"				\
-			"setupa=setenv bootargs $android_bootargs; "	\
-			    "usb start; "				\
-			    "fatload usb 0:1 ${kernel_addr_r} Image; "	\
-			    "fatload usb 0:1 ${fdt_addr_r} hi3798cv200-poplar.dtb; " \
-			    "fatload usb 0:1 ${ramdisk_addr_r} ramdisk.android.uboot\0" \
-			"boota=booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}\0" \
-			"bootai=part start mmc 0 2 aistart; "		\
-			    "part size mmc 0 2 aisize; "		\
-			    "mmc read ${android_addr_r} ${aistart} ${aisize}; " \
-			    "booti ${android_addr_r}\0" \
-			BOOTENV
+			"image_name=Image\0"				\
+			"bootcmd=for target in ${boot_targets}; "	\
+				"do run bootcmd_${target}; " \
+				"done\0"			\
+			"boot_targets=usb mmc0\0"	\
+			"boot_prefixes=/ /boot/\0"	\
+			"bootcmd_mmc0=setenv devnum 0; " \
+				"setenv boot_interface mmc; " \
+				"run scan_dev_for_boot;\0"	\
+			"bootcmd_usb=setenv devnum 0; " \
+				"usb start; " \
+				"setenv boot_interface usb; "	\
+				"run scan_dev_for_boot;\0"	\
+			"scan_dev_for_boot=for prefix in ${boot_prefixes}; "\
+				"do echo ${prefix}; "	\
+				"run boot_a_script; "	\
+				"done\0"	\
+			"load_bootpart_cmd=ext4load\0"	\
+			"boot_a_script=${load_bootpart_cmd} ${boot_interface} "	\
+				"${devnum}:1 ${scriptaddr} ${prefix}boot.scr; "	\
+				"source ${scriptaddr};\0"
 
 
 /* Command line configuration */
