@@ -109,7 +109,7 @@ start:
 	.word _total_boot_area_end - _total_boot_area_start
 
 .=CONFIG_DEFAULT_BOOT_REG_POS
-	.incbin	"bin/BOOT_0.reg"
+	.incbin	CONFIG_DDR_REG0
 
 /* 2.5 Param signature */
 .=CONFIG_PARAM_AREA_SIG_POS
@@ -176,7 +176,7 @@ _checked_area_start:
 .align	9
 reg_list_start:
 boot_reg0:
-	.incbin "bin/BOOT_0.reg"
+	.incbin CONFIG_DDR_REG0
 .= boot_reg0 + CONFIG_REG_SIZE
 
 boot_reg1:

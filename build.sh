@@ -49,12 +49,17 @@ echo "######  BUILD l-loader ######"
 cp -f ./atf/build/poplar/${ATF_BIN_DIR}/bl1.bin ./l-loader/atf/
 cp -f ./atf/build/poplar/${ATF_BIN_DIR}/fip.bin ./l-loader/atf/
 make -C l-loader clean
+
+if [ -z "${DDR_REG}" ]; then
+	DDR_REG="BOOT_0.reg"
+fi
+
 if [ "$1" = "RECOVERY" ]; then
 	echo "BUILD l-loader WITH RECOVERY"
-	make -C l-loader CROSS_COMPILE=${CROSS_32} \
+	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${DDR_REG} \
 		ARM_TRUSTED_FIRMWARE=../atf RECOVERY=1
 else
-	make -C l-loader CROSS_COMPILE=${CROSS_32} \
+	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${DDR_REG} \
 		ARM_TRUSTED_FIRMWARE=../atf
 fi
 

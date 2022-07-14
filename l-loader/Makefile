@@ -67,7 +67,7 @@ l-loader: start.o debug.o l-loader.lds
 	$(LD) -Bstatic -Tl-loader.lds start.o debug.o -o $@
 
 start.o: start.S
-	$(CC) -c -o $@ $< -I$(ARM_TF_INCLUDE) -DVERSION_MSG=$(VERSION_MSG) \
+	$(CC) -c -o $@ $< -I$(ARM_TF_INCLUDE) -DVERSION_MSG=$(VERSION_MSG) -DCONFIG_DDR_REG0=\"bin/$(DDR_REG)\" \
 		$(CFLAGS)
 
 start.S: atf/bl1.bin atf/fip.bin
