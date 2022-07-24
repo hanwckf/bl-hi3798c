@@ -120,7 +120,7 @@ static void parse_module_parameters(void)
 
 	int tmp, gmac;
 
-	//gmac_debug = 1;
+	gmac_debug = 1;
 	phy_link_times = DEFAULT_PHY_LINK_TIMES;
 
 
@@ -834,16 +834,24 @@ static int higmac_register_dev(port_id_t port_id)
 	return 0;
 }
 
+#define STRINGIZE(x) #x
+#define STRINGIZE_VALUE_OF(x) STRINGIZE(x)
+
 int higmac_initialize(bd_t *bis)
 {
 	int ret;
 
 	parse_module_parameters();
 
-#if 0
-	ret = higmac_register_dev(GSF0_PORT0);
-	if (ret)
-		return ret;
+#ifdef BOARD_VARIANT
+	printf("BOARD: %s\n", STRINGIZE_VALUE_OF(BOARD_VARIANT));
+
+	if (!strcmp(STRINGIZE_VALUE_OF(BOARD_VARIANT), "DSH4904")) {
+		printf("Init GMAC0 for DSH4904\n");
+		ret = higmac_register_dev(GSF0_PORT0);
+		if (ret)
+			return ret;
+	}
 #endif
 
 	ret = higmac_register_dev(GSF0_PORT1);

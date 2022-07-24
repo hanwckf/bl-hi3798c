@@ -7,6 +7,12 @@ CROSS_32=arm-linux-gnueabihf-
 
 rm -f fastboot.bin l-loader.bin
 
+if [ ! -n "$BOARD" ]; then
+	BOARD=IMOU-SN1
+fi
+
+echo "build for board: $BOARD"
+
 echo "######  BUILD U-BOOT ######"
 if [ -f ${UBOOT_CFG} ]; then
 	cp -f ${UBOOT_CFG} u-boot/.config
@@ -15,7 +21,7 @@ else
 	exit 1
 fi
 make -C u-boot CROSS_COMPILE=${CROSS_64} clean
-make -j4 -C u-boot CROSS_COMPILE=${CROSS_64}
+make -j4 -C u-boot CROSS_COMPILE=${CROSS_64} KCFLAGS=-DBOARD_VARIANT=\"${BOARD}\"
 
 if [ ! -f u-boot/u-boot.bin ]; then
 	echo "u-boot build failed!"
@@ -50,16 +56,12 @@ cp -f ./atf/build/poplar/${ATF_BIN_DIR}/bl1.bin ./l-loader/atf/
 cp -f ./atf/build/poplar/${ATF_BIN_DIR}/fip.bin ./l-loader/atf/
 make -C l-loader clean
 
-if [ -z "${DDR_REG}" ]; then
-	DDR_REG="BOOT_0.reg"
-fi
-
 if [ "$1" = "RECOVERY" ]; then
 	echo "BUILD l-loader WITH RECOVERY"
-	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${DDR_REG} \
+	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${BOARD}.reg \
 		ARM_TRUSTED_FIRMWARE=../atf RECOVERY=1
 else
-	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${DDR_REG} \
+	make -C l-loader CROSS_COMPILE=${CROSS_32} DDR_REG=${BOARD}.reg \
 		ARM_TRUSTED_FIRMWARE=../atf
 fi
 

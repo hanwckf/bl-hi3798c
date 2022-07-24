@@ -133,7 +133,7 @@ void higmac_reset_phy_by_crg(void)
 	v |= (PHY0_RST_BIT | PHY1_RST_BIT);
 	writel(v, p + RESET_CTRL);
 
-	msleep(10);
+	msleep(30);
 
 	/* write 0 to reset phy */
 	v = readl(p + RESET_CTRL);
@@ -141,7 +141,7 @@ void higmac_reset_phy_by_crg(void)
 	writel(v, p + RESET_CTRL);
 
 	/* reset time */
-	msleep(30);
+	msleep(50);
 
 	/* write 1 to undo reset */
 	v = readl(p + RESET_CTRL);
